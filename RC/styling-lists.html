@@ -6,9 +6,10 @@
     <title>Styling lists</title>
     <style>
       /* General styles */
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
       html {
-        font-family: Helvetica, Arial, sans-serif;
+        font-family: Inter, Arial, sans-serif;
         font-size: 10px;
       }
 
@@ -42,7 +43,7 @@
       /* Ordered list styles */
 
       ol {
-        list-style-type: upper-roman;
+        list-style-type: lower-roman;
       }
 
       /* Description list styles */
@@ -55,46 +56,164 @@
         font-weight: bold;
       }
 
+      /* Layout Wrapper */
+      .custom-dropdown {
+        position: relative;
+        width: 280px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      /* The Trigger Box */
+      .dropdown-trigger {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px; /* Minimal curve, set to 0px for a hard rectangle */
+        font-size: 14px;
+        color: #333333;
+        cursor: pointer;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+
+      .dropdown-trigger:hover {
+        border-color: #b0b0b0;
+      }
+
+      /* Minimalist Arrow & Rotation */
+      .arrow-icon {
+        transition: transform 0.2s ease;
+      }
+
+      .custom-dropdown.open .arrow-icon {
+        transform: rotate(180deg);
+      }
+
+      /* The Content Panel (Hidden by default) */
+      .dropdown-panel {
+        display: none;
+        width: 100%;
+        margin-top: 4px;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        padding: 16px;
+        box-sizing: border-box;
+      }
+
+      /* Show state */
+      .custom-dropdown.open .dropdown-panel {
+        display: block;
+      }
+
+      /* Plain Text & List Styling inside the panel */
+      .dropdown-panel p {
+        margin: 0 0 12px 0;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #666666;
+      }
+
+      .dropdown-panel ul {
+        margin: 0;
+        padding-left: 20px;
+        font-size: 14px;
+        color: #666666;
+      }
+
+      .dropdown-panel li {
+        margin-bottom: 6px;
+      }
+
+      .dropdown-panel ol,
+      .dropdown-panel dl {
+        margin: 0;
+        font-size: 14px;
+      }
+
+
+
     </style>
+    <script>
+      function toggleDropdown(button) {
+        const dropdown = button.closest('.custom-dropdown');
+        dropdown.classList.toggle('open');
+        button.setAttribute('aria-expanded', dropdown.classList.contains('open'));
+      }
+
+      // Optional: Close the dropdown if clicked outside
+      window.addEventListener('click', function(event) {
+        document.querySelectorAll('.custom-dropdown').forEach(function(dropdown) {
+          if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove('open');
+            dropdown.querySelector('.dropdown-trigger').setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+    </script>
   </head>
   <body>
-    <h2>Shopping (unordered) list</h2>
+    <div class="custom-dropdown">
+      <button class="dropdown-trigger" onclick="toggleDropdown(this)" aria-expanded="false">
+        <span>Shopping (unordered) list</span>
+        <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16">
+          <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
+        </svg>
+      </button>
+      <div class="dropdown-panel">
+        <p>Paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference.</p>
+        <ul>
+          <li>Humous</li>
+          <li>Pitta</li>
+          <li>Green salad</li>
+          <li>Halloumi</li>
+        </ul>
+      </div>
+    </div>
 
-    <p>Paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference.</p>
+    <div class="custom-dropdown">
+      <button class="dropdown-trigger" onclick="toggleDropdown(this)" aria-expanded="false">
+        <span>Recipe (ordered) list</span>
+        <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16">
+          <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
+        </svg>
+      </button>
+      <div class="dropdown-panel">
+        <p>Paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference.</p>
+        <ol start="4">
+          <li>Toast pitta, leave to cool, then slice down the edge.</li>
+          <li>Fry the halloumi in a shallow, non-stick pan, until browned on both sides.</li>
+          <li>Wash and chop the salad.</li>
+          <li>Fill pitta with salad, humous, and fried halloumi.</li>
+        </ol>
+      </div>
+    </div>
 
-    <ul>
-      <li>Humous</li>
-      <li>Pitta</li>
-      <li>Green salad</li>
-      <li>Halloumi</li>
-    </ul>
-
-    <h2>Recipe (ordered) list</h2>
-
-    <p>Paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference.</p>
-
-    <ol start="4">
-      <li>Toast pitta, leave to cool, then slice down the edge.</li>
-      <li>Fry the halloumi in a shallow, non-stick pan, until browned on both sides.</li>
-      <li>Wash and chop the salad.</li>
-      <li>Fill pitta with salad, humous, and fried halloumi.</li>
-    </ol>
-
-    <h2>Ingredient description list</h2>
-
-    <p>Paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference.</p>
-
-    <dl>
-      <dt>Humous</dt>
-      <dd>A thick dip/sauce generally made from chick peas blended with tahini, lemon juice, salt, garlic, and other ingredients.</dd>
-      <dt>Pitta</dt>
-      <dd>A soft, slightly leavened flatbread.</dd>
-      <dt>Halloumi</dt>
-      <dd>A semi-hard, unripened, brined cheese with a higher-than-usual melting point, usually made from goat/sheep milk.</dd>
-      <dt>Green salad</dt>
-      <dd>That green healthy stuff that many of us just use to garnish kebabs.</dd>
-    </dl>
-
+    <div class="custom-dropdown">
+      <button class="dropdown-trigger" onclick="toggleDropdown(this)" aria-expanded="false">
+        <span>Ingredient description list</span>
+        <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16">
+          <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
+        </svg>
+      </button>
+      <div class="dropdown-panel">
+        <p>Paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference, paragraph for reference.</p>
+        <dl>
+          <dt>Humous</dt>
+          <dd>A thick dip/sauce generally made from chick peas blended with tahini, lemon juice, salt, garlic, and other ingredients.</dd>
+          <dt>Pitta</dt>
+          <dd>A soft, slightly leavened flatbread.</dd>
+          <dt>Halloumi</dt>
+          <dd>A semi-hard, unripened, brined cheese with a higher-than-usual melting point, usually made from goat/sheep milk.</dd>
+          <dt>Green salad</dt>
+          <dd>That green healthy stuff that many of us just use to garnish kebabs.</dd>
+        </dl>
+      </div>
+    </div>
 
   </body>
 </html>
